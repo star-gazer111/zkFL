@@ -1,0 +1,117 @@
+Files already downloaded and verified
+##### GENERATOR #####
+Generator(
+  (main): Sequential(
+    (0): ConvTranspose2d(100, 512, kernel_size=(4, 4), stride=(1, 1), bias=False)
+    (1): BatchNorm2d(512, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+    (2): ReLU(inplace=True)
+    (3): ConvTranspose2d(512, 256, kernel_size=(4, 4), stride=(2, 2), padding=(1, 1), bias=False)
+    (4): BatchNorm2d(256, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+    (5): ReLU(inplace=True)
+    (6): ConvTranspose2d(256, 128, kernel_size=(4, 4), stride=(2, 2), padding=(1, 1), bias=False)
+    (7): BatchNorm2d(128, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+    (8): ReLU(inplace=True)
+    (9): ConvTranspose2d(128, 64, kernel_size=(4, 4), stride=(2, 2), padding=(1, 1), bias=False)
+    (10): BatchNorm2d(64, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+    (11): ReLU(inplace=True)
+    (12): ConvTranspose2d(64, 3, kernel_size=(4, 4), stride=(2, 2), padding=(1, 1), bias=False)
+    (13): Tanh()
+  )
+)
+######################
+
+##### DISCRIMINATOR #####
+Discriminator(
+  (main): Sequential(
+    (0): Conv2d(3, 64, kernel_size=(4, 4), stride=(2, 2), padding=(1, 1), bias=False)
+    (1): LeakyReLU(negative_slope=0.2, inplace=True)
+    (2): Conv2d(64, 128, kernel_size=(4, 4), stride=(2, 2), padding=(1, 1), bias=False)
+    (3): BatchNorm2d(128, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+    (4): LeakyReLU(negative_slope=0.2, inplace=True)
+    (5): Conv2d(128, 256, kernel_size=(4, 4), stride=(2, 2), padding=(1, 1), bias=False)
+    (6): BatchNorm2d(256, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+    (7): LeakyReLU(negative_slope=0.2, inplace=True)
+    (8): Conv2d(256, 512, kernel_size=(4, 4), stride=(2, 2), padding=(1, 1), bias=False)
+    (9): BatchNorm2d(512, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+    (10): LeakyReLU(negative_slope=0.2, inplace=True)
+    (11): Conv2d(512, 1, kernel_size=(4, 4), stride=(1, 1), bias=False)
+    (12): Sigmoid()
+  )
+)
+######################
+391it [01:14,  5.25it/s]
+Epoch 1 of 25
+Generator loss: 6.82582855, Discriminator loss: 0.59295970
+391it [01:18,  4.96it/s]
+Epoch 2 of 25
+Generator loss: 4.52954292, Discriminator loss: 0.58260345
+391it [01:18,  4.99it/s]
+Epoch 3 of 25
+Generator loss: 3.56949568, Discriminator loss: 0.67920911
+391it [01:18,  5.00it/s]
+Epoch 4 of 25
+Generator loss: 3.35381866, Discriminator loss: 0.69261432
+391it [01:18,  4.98it/s]
+Epoch 5 of 25
+Generator loss: 3.07915592, Discriminator loss: 0.68495619
+391it [01:16,  5.14it/s]
+Epoch 6 of 25
+Generator loss: 2.79268718, Discriminator loss: 0.77943259
+391it [01:16,  5.10it/s]
+Epoch 7 of 25
+Generator loss: 2.86209393, Discriminator loss: 0.81409305
+391it [01:16,  5.14it/s]
+Epoch 8 of 25
+Generator loss: 2.92669415, Discriminator loss: 0.73877192
+391it [01:15,  5.16it/s]
+Epoch 9 of 25
+Generator loss: 3.11445141, Discriminator loss: 0.80801833
+391it [01:16,  5.12it/s]
+Epoch 10 of 25
+Generator loss: 2.99956417, Discriminator loss: 0.73935354
+391it [01:15,  5.16it/s]
+Epoch 11 of 25
+Generator loss: 3.30382657, Discriminator loss: 0.62240195
+391it [01:16,  5.13it/s]
+Epoch 12 of 25
+Generator loss: 2.88004470, Discriminator loss: 0.70004535
+391it [01:14,  5.24it/s]
+Epoch 13 of 25
+Generator loss: 2.77949643, Discriminator loss: 0.77566218
+391it [01:14,  5.27it/s]
+Epoch 14 of 25
+Generator loss: 6.30406380, Discriminator loss: 0.09794791
+391it [01:14,  5.27it/s]
+Epoch 15 of 25
+Generator loss: 7.63245916, Discriminator loss: 0.19175564
+391it [01:15,  5.15it/s]
+Epoch 16 of 25
+Generator loss: 4.44786882, Discriminator loss: 0.41321349
+391it [01:14,  5.25it/s]
+Epoch 17 of 25
+Generator loss: 3.04176807, Discriminator loss: 0.68213463
+391it [01:15,  5.21it/s]
+Epoch 18 of 25
+Generator loss: 2.99094319, Discriminator loss: 0.66568607
+391it [01:14,  5.27it/s]
+Epoch 19 of 25
+Generator loss: 2.82535219, Discriminator loss: 0.75250036
+391it [01:14,  5.26it/s]
+Epoch 20 of 25
+Generator loss: 3.87807655, Discriminator loss: 0.44080228
+391it [01:15,  5.21it/s]
+Epoch 21 of 25
+Generator loss: 3.29922676, Discriminator loss: 0.56932569
+391it [01:14,  5.24it/s]
+Epoch 22 of 25
+Generator loss: 3.99732542, Discriminator loss: 0.47825560
+391it [01:14,  5.26it/s]
+Epoch 23 of 25
+Generator loss: 2.64353871, Discriminator loss: 0.75107974
+391it [01:13,  5.33it/s]
+Epoch 24 of 25
+Generator loss: 3.36884499, Discriminator loss: 0.56306148
+391it [01:13,  5.32it/s]
+Epoch 25 of 25
+Generator loss: 3.77305317, Discriminator loss: 0.50779337
+DONE TRAINING
