@@ -21,21 +21,36 @@ let clients = 0;
 let callbacks = [];
 let data = [];
 let run_zk_proofs = false;
-let zk_proofs_ran_success = false;
-let Result = [];
 
 app.get("/api/v1/proofs/generate", (req, res) => {
+    console.log(data);
     res.send({ run: run_zk_proofs, data: data });
 })
 
 app.post("/api/v1/proofs/success", async (req, res) => {
     Result = req.body.result;
-    zk_proofs_ran_success = true;
+    let arra1_to_send = []
+    for (let i = 0; i < 8; i++) {
+        arra1_to_send.push([Result[0][i]])
+    }
+    let arra2_to_send = Result[1]
+    let arra3_to_send = [Result[2]]
+    let arra4_to_send = Result[3]
+    let array_to_send = JSON.stringify([arra1_to_send, arra2_to_send, arra3_to_send, arra4_to_send])
+    callbacks.forEach(callback => callback({ result: array_to_send }));
+    callbacks = [];
+    clients = 0;
+    run_zk_proofs = false;
+    data = [];
     res.send({ status: "success" });
 })
 
 app.post("/api/v1/check", async (req, res) => {
     aggregated_array = req.body.params;
+    aggregated_array[0] = JSON.parse(aggregated_array[0]);
+    aggregated_array[1] = JSON.parse(aggregated_array[1]);
+    aggregated_array[2] = JSON.parse(aggregated_array[2]);
+    aggregated_array[3] = JSON.parse(aggregated_array[3]);
     let array1 = []
     for (let i = 0; i < 8; i++) {
         array1.push(aggregated_array[0][i][0]);
@@ -50,22 +65,6 @@ app.post("/api/v1/check", async (req, res) => {
         callbacks.push(response => res.send(response));
         run_zk_proofs = true;
         console.log("Running ZK Proofs");
-        while (zk_proofs_ran_success === false) { }
-        let arra1_to_send = []
-        for (let i = 0; i < 8; i++) {
-            arra1_to_send.push([Result[0][i]])
-        }
-        let arra2_to_send = Result[1]
-        let arra3_to_send = [Result[2]]
-        let arra4_to_send = Result[3]
-        let array_to_send = [arra1_to_send, arra2_to_send, arra3_to_send, arra4_to_send]
-        callbacks.forEach(callback => callback({ result: array_to_send }));
-        callbacks = [];
-        clients = 0;
-        run_zk_proofs = false;
-        zk_proofs_ran_success = false;
-        Result = [];
-        data = [];
     } else {
         callbacks.push(response => res.send(response));
     }
