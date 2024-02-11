@@ -4,6 +4,8 @@ import circ1 from './circuit1/target/circuit1.json';
 import circ2 from './circuit2/target/circuit2.json';
 import axios from 'axios';
 
+let epochs = 0;
+
 function scale_arr(arr) {
   for (let i = 0; i < arr.length; i++) {
     arr[i] = arr[i] * 1e16;
@@ -11,7 +13,7 @@ function scale_arr(arr) {
 }
 
 function pre_process_arr(arr) {
-  for (let i = 0; i < arr.length; i++) {
+  for (let i = 0; i < arr.length; i++) {  
     arr[i] = parseFloat((arr[i].toString().split('.'))[0]);
     if (arr[i] < 0) {
       arr[i] = -arr[i];
@@ -42,6 +44,7 @@ function descale_arr(arr) {
 }
 
 async function GenProofs(data) {
+  display('epochs', `Running Epoch ${epochs++}`);
   let result_arr = [];
 
   // ========================================================
@@ -54,7 +57,8 @@ async function GenProofs(data) {
   pre_process_arr(arr1_1)
   pre_process_arr(arr1_2)
   let input = { x: arr1_1, y: arr1_2 }
-  display('logs', 'Generating proof [2]... ⌛');
+  console.log(input);
+  display('logs', 'Generating proof [1]... ⌛')
   let proof = await noir.generateFinalProof(input);
   let result_arr_1 = [];
   for (let i = 0; i < 8; i++) {
@@ -62,11 +66,11 @@ async function GenProofs(data) {
     result_arr_1.push(a)
   }
   descale_arr(result_arr_1)
-  display('logs', 'Generating proof [2]... ✅');
+  display('logs', 'Generating proof [1]... ✅');
   display('results', proof.proof);
-  display('logs', 'Verifying proof [2]... ⌛');
+  display('logs', 'Verifying proof [1]... ⌛');
   let verification = await noir.verifyFinalProof(proof);
-  if (verification) display('logs', 'Verifying proof [2]... ✅');
+  if (verification) display('logs', 'Verifying proof [1]... ✅');
 
   // ========================================================
   backend = new BarretenbergBackend(circ1);
@@ -102,7 +106,7 @@ async function GenProofs(data) {
   pre_process_arr(arr3_1)
   pre_process_arr(arr3_2)
   input = { x: arr3_1, y: arr3_2 }
-  display('logs', 'Generating proof [2]... ⌛');
+  display('logs', 'Generating proof [3]... ⌛');
   proof = await noir.generateFinalProof(input);
   let result_arr_3 = [];
   for (let i = 0; i < 8; i++) {
@@ -110,11 +114,11 @@ async function GenProofs(data) {
     result_arr_3.push(a)
   }
   descale_arr(result_arr_3)
-  display('logs', 'Generating proof [2]... ✅');
+  display('logs', 'Generating proof [3]... ✅');
   display('results', proof.proof);
-  display('logs', 'Verifying proof [2]... ⌛');
+  display('logs', 'Verifying proof [3]... ⌛');
   verification = await noir.verifyFinalProof(proof);
-  if (verification) display('logs', 'Verifying proof [2]... ✅');
+  if (verification) display('logs', 'Verifying proof [3]... ✅');
 
   // ===========================================================
   backend = new BarretenbergBackend(circ2);
@@ -123,14 +127,15 @@ async function GenProofs(data) {
   let arr4_2 = data[1][3]
   scale_arr(arr4_1)
   scale_arr(arr4_2)
+  pre_process_arr(arr4_1)
+  pre_process_arr(arr4_2)
   input = { x: arr4_1[0], y: arr4_2[0] };
   display('logs', 'Generating proof [4]... ⌛');
   proof = await noir.generateFinalProof(input);
   let result_arr_4 = []
   let a = Number((hexToDecimal(proof.publicInputs[0])));
-  result_arr.push(a)
+  result_arr_4.push(a)
   descale_arr(result_arr_4)
-  console.log(result_arr_4);
   display('logs', 'Generating proof [4]... ✅');
   display('results', proof.proof);
   display('logs', 'Verifying proof [4]... ⌛');
@@ -152,15 +157,20 @@ function display(container, msg) {
   c.appendChild(p);
 }
 
-const getProofs = async () => {
+let intervalId;
+
+function getProofs () {
   console.log("Getting Proofs");
-  await axios.get('http://localhost:6969/api/v1/proofs/generate').then(async (response) => {
+  axios.get('http://localhost:6969/api/v1/proofs/generate').then(async (response) => {
+    console.log(response.data);
     if (response.data.run === true) {
+      clearInterval(intervalId); 
       let Result = await GenProofs(response.data.data);
       axios.post('http://localhost:6969/api/v1/proofs/success', {
         result: Result
       }).then((response) => {
         console.log(response.data);
+        intervalId = setInterval(getProofs, 10000);
       })
     } else {
       console.log("All Clients have not responded yet");
@@ -168,4 +178,4 @@ const getProofs = async () => {
   })
 }
 
-setInterval(getProofs, 10000);
+intervalId = setInterval(getProofs, 10000);
