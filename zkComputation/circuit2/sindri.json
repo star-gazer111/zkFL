@@ -1,0 +1,8 @@
+{
+    "$schema": "https://sindri.app/api/v1/sindri-manifest-schema.json",
+    "name": "circuit2",
+    "circuitType": "noir",
+    "provingScheme": "barretenberg",
+    "noirVersion": "0.17.0"
+  }
+  
