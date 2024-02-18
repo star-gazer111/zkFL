@@ -6,12 +6,11 @@ const process = (await import("process")).default;
 const tar = (await import("tar")).default;
 
 const SINDRI_API_KEY = process.env.SINDRI_API_KEY
-
 axios.defaults.baseURL = "https://sindri.app/api/v1";
 axios.defaults.headers.common["Authorization"] = `Bearer ${SINDRI_API_KEY}`;
 axios.defaults.validateStatus = (status) => status >= 200 && status < 300;
 
-
+//add epochs & scailing & descaling of weights
 let epochs = 0;
 
 function scale_arr(arr) {
